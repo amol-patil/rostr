@@ -29,6 +29,9 @@ gem 'spring',        group: :development
 # Best debugging gem
 gem 'byebug'
 
+# Google Drive gem
+gem 'google_drive'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
