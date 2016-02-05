@@ -1,1 +1,1 @@
-json.text "create template oh "
+json.text "#{@team} on call is: #{@oncall.upcase}"
