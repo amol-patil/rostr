@@ -28,16 +28,14 @@ class SchedulesController < ApplicationController
   end
 
   def extract_final_row(team, worksheet)
-    final_row = []
     (3..worksheet.rows.size-1).each do |i|
       next_num = i+1
       current_time_slot = Date.strptime(worksheet["A#{i}"],"%m/%d/%Y")
       next_time_slot = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
       if Time.now.between?(current_time_slot, next_time_slot)
-        final_row = worksheet.rows[i]
+        return Time.now.hour < 10 ? worksheet.rows[i-1] : worksheet.rows[i]
       end
     end
-    final_row
   end
 
   def whos_on_call(team, final_row)

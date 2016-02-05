@@ -55,6 +55,13 @@ describe SchedulesController do
     it "returns error on non matching team name" do
       expect(SchedulesController.new.whos_on_call("UW", row_simple)).to eq("ERROR")
     end
+
+    skip "returns current row on transition day before 10a" do
+    end
+    
+    skip "returns next row on transition day after 10a" do
+    end
+
   end
 
   context "Gdrive credentials setup" do
@@ -67,7 +74,8 @@ describe SchedulesController do
   end
 
   context "extract final row" do
-    pending("tests final row extraction")
+    skip "tests final row extraction" do
+    end
   end
 
 end
