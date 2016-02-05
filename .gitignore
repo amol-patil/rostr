@@ -15,10 +15,6 @@
 /log/*.log
 /tmp
 
-# Ignore Rspec
-*.rspec
-
-# Ignore byebug history
+# Ignore all rspec and byebug files
 *.byebug_history
-
-
+*.rspec
