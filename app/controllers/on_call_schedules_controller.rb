@@ -4,7 +4,7 @@ require 'google/api_client'
 require 'json'
 require 'httparty'
 
-class SchedulesController < ApplicationController
+class OnCallSchedulesController < ApplicationController
 
   def create
     team = params[:text].try(:upcase)

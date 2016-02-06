@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SchedulesController do
+describe OnCallSchedulesController do
   context "POST" do
     let(:params) { "Slack Test" }
     let(:valid_params) { {"text" => "CS"} }
@@ -32,11 +32,11 @@ describe SchedulesController do
 
   context "teams" do
     it "matches if team name is within the list" do
-      expect(SchedulesController.new.is_team_name_valid?("CA")).to eq(true)
+      expect(OnCallSchedulesController.new.is_team_name_valid?("CA")).to eq(true)
     end
 
     it "returns command not found when name not within the list" do
-      expect(SchedulesController.new.is_team_name_valid?("MI")).to eq(false)
+      expect(OnCallSchedulesController.new.is_team_name_valid?("MI")).to eq(false)
     end
   end
   
@@ -45,15 +45,15 @@ describe SchedulesController do
     let(:row_override) { ["01/01/2016", "test", "test-override", "ca-test", "ca-override", "ca-test", "", "cs-test", "", "cs-test", "cs-override"] }
 
     it "returns first on call when no overrides" do
-      expect(SchedulesController.new.whos_on_call("CS", row_simple)).to eq("cs-test")
+      expect(OnCallSchedulesController.new.whos_on_call("CS", row_simple)).to eq("cs-test")
     end
 
     it "returns override on call when override is specified" do
-      expect(SchedulesController.new.whos_on_call("ROID", row_override)).to eq("test-override")
+      expect(OnCallSchedulesController.new.whos_on_call("ROID", row_override)).to eq("test-override")
     end
 
     it "returns error on non matching team name" do
-      expect(SchedulesController.new.whos_on_call("UW", row_simple)).to eq("ERROR")
+      expect(OnCallSchedulesController.new.whos_on_call("UW", row_simple)).to eq("ERROR")
     end
 
     skip "returns current row on transition day before 10a" do
@@ -69,7 +69,7 @@ describe SchedulesController do
       mock_session = double("session")
       allow(GoogleDrive).to receive(:saved_session).with(anything()) { mock_session }
       allow(mock_session).to receive_message_chain(:spreadsheet_by_key, :worksheets => ["spreadsheet"])
-      expect(SchedulesController.new.get_spreadsheet).to eq("spreadsheet")
+      expect(OnCallSchedulesController.new.get_spreadsheet).to eq("spreadsheet")
     end
   end
 
