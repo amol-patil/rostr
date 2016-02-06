@@ -1,1 +1,1 @@
-json.text "#{@team} on call is: #{@oncall.upcase}"
+json.text "Looking..."

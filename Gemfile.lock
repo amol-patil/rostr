@@ -73,6 +73,9 @@ GEM
       os (~> 0.9)
       signet (~> 0.7)
     hike (1.2.3)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -194,6 +197,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.0.0)
   google_drive
+  httparty
   jbuilder (~> 2.0)
   jquery-rails
   pg

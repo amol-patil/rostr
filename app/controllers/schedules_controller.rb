@@ -1,16 +1,23 @@
 require 'byebug'
 require 'google_drive'
 require 'google/api_client'
+require 'json'
+require 'httparty'
 
 class SchedulesController < ApplicationController
 
   def create
-    @team = params[:text]
+    team = params[:text].try(:upcase)
+    response_url = params[:response_url]
     respond_to do |format|
-      if is_team_name_valid?(@team)
-        final_row = extract_final_row(@team, get_spreadsheet)
-        @oncall = whos_on_call(@team, final_row)
+      if is_team_name_valid?(team)
         format.json { render "create", :status => :ok}
+        Thread.new do
+          final_row = extract_final_row(team, get_spreadsheet)
+          oncall = whos_on_call(team, final_row)
+          json_text = {"text" => team + " on-call is: " + oncall.upcase}
+          HTTParty.post(response_url, body: json_text.to_json)
+        end
       else 
         format.json { render "create_error", :status => :unprocessable_entity}
       end 
@@ -33,7 +40,7 @@ class SchedulesController < ApplicationController
       current_time_slot = Date.strptime(worksheet["A#{i}"],"%m/%d/%Y")
       next_time_slot = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
       if Time.now.between?(current_time_slot, next_time_slot)
-        return Time.now.hour < 10 ? worksheet.rows[i-1] : worksheet.rows[i]
+        return Time.now.hour < 10 ? worksheet.rows[i-2] : worksheet.rows[i-1]
       end
     end
   end
