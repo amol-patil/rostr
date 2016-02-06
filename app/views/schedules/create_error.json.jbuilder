@@ -1,2 +1,4 @@
-json.response_type "ephemeral"
-json.text "Unrecognized command. For a complete list of commands please visit: "
+json.text "Unrecognized command. Following commands are currently accepted:
+1) /whosoncall ROID
+2) /whosoncall CA
+3) /whosoncall CS"
