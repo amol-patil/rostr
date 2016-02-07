@@ -8,13 +8,13 @@ class OnCallSchedule
   attr_accessor :team, :response_url 
 
   def initialize(team, response_url)
-    @team = team
+    @team = team.try(:upcase)
     @response_url = response_url
   end
 
   def is_team_name_valid?
     team_names = ["ROID", "CA", "CS"]
-    return team_names.include?(team.try(:upcase)) ? true : false
+    return team_names.include?(team) ? true : false
   end
 
   def callback_slack
@@ -47,7 +47,7 @@ class OnCallSchedule
 
   def get_spreadsheet
     session = GoogleDrive.saved_session("config.json")
-    session.spreadsheet_by_key("1_WVfnRMINBfH6NSUZ6XQh2QCoR7Eu1P_3tlLS8_PlLQ").worksheets[0]
+    session.spreadsheet_by_key("1h71PBoL_nz2_3fJZ2DH3xRmG-oY820mY7iur9p3Hxao").worksheets[1]
   end
 
   def extract_final_row(team, worksheet)

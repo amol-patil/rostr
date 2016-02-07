@@ -114,7 +114,6 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     os (0.9.6)
-    pg (0.18.4)
     polyglot (0.3.5)
     rack (1.5.5)
     rack-test (0.6.3)
@@ -210,7 +209,6 @@ DEPENDENCIES
   httparty
   jbuilder (~> 2.0)
   jquery-rails
-  pg
   rails (= 4.1.1)
   rspec-rails (~> 3.0)
   sass-rails (~> 4.0.3)

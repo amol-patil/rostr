@@ -1,6 +1,10 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# require 'rails/all'
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "sprockets/railtie"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,11 +25,6 @@ module Whosoncall
     # config.i18n.default_locale = :de
 
     config.time_zone = 'Pacific Time (US & Canada)'
-    config.active_record.default_timezone = 'Pacific Time (US & Canada)'
-    
-    VCR.configure do |config|
-      config.cassette_library_dir = "fixtures/vcr_cassettes"
-      config.hook_into :webmock
-    end
+    # config.active_record.default_timezone = 'Pacific Time (US & Canada)'
   end
 end

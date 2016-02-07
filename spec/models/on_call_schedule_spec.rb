@@ -52,6 +52,14 @@ describe OnCallSchedule do
             subject
           end
         end
+
+        it "returns row ignoring cases for team name" do
+          Timecop.freeze(Time.local(2016, 2, 7, 9))
+          VCR.use_cassette("google_spreadsheet") do
+            expect(HTTParty).to receive(:post).with("test_response_url", :body => request_body.to_json)
+            OnCallSchedule.new("cS", "test_response_url").callback_slack
+          end
+        end
       end
 
       context "when transition day" do
