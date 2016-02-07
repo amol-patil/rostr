@@ -26,13 +26,18 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-# Best debugging gem
-gem 'byebug'
 
 # Google Drive gem
 gem 'google_drive'
 
 gem 'httparty'
+
+group :test do
+  gem 'vcr'
+  gem 'webmock'
+  gem 'byebug'
+  gem 'timecop'
+end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'

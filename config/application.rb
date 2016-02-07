@@ -22,5 +22,10 @@ module Whosoncall
 
     config.time_zone = 'Pacific Time (US & Canada)'
     config.active_record.default_timezone = 'Pacific Time (US & Canada)'
+    
+    VCR.configure do |config|
+      config.cassette_library_dir = "fixtures/vcr_cassettes"
+      config.hook_into :webmock
+    end
   end
 end
