@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  resources :schedules, :only => [:create]
+  resources :on_call_schedules, :only => [:create]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
