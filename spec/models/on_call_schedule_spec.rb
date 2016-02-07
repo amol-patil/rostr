@@ -91,6 +91,7 @@ describe OnCallSchedule do
 
       context "when non-transition day" do
         let(:request_body) { {"text" => "CA on-call is: BCY"} }
+        let(:request_body_UW) { {"text" => "UW on-call is: BCY"} }
         let(:request_body_override) { {"text" => "CA on-call is: CAR"} }
         let(:request_body_error) { {"text" => "Schedule not set for today"} }
 
@@ -115,6 +116,14 @@ describe OnCallSchedule do
           VCR.use_cassette("google_spreadsheet") do
             expect(HTTParty).to receive(:post).with("test_response_url", :body => request_body_error.to_json)
             subject
+          end
+        end
+
+        it "returns same schedule for UW" do
+          Timecop.freeze(Time.local(2016, 2, 7, 9))
+          VCR.use_cassette("google_spreadsheet") do
+            expect(HTTParty).to receive(:post).with("test_response_url", :body => request_body_UW.to_json)
+            OnCallSchedule.new("UW", "test_response_url").callback_slack
           end
         end
       end

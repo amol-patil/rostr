@@ -13,7 +13,7 @@ class OnCallSchedule
   end
 
   def is_team_name_valid?
-    team_names = ["ROID", "CA", "CS"]
+    team_names = ["ROID", "CA", "CS", "UW"]
     return team_names.include?(team) ? true : false
   end
 
@@ -34,7 +34,7 @@ class OnCallSchedule
 
   def whos_on_call(team, final_row)
     case team
-    when "CA"
+    when "CA", "UW"
       return final_row[4] == "" ? final_row[3] : final_row[4]
     when "CS"
       return final_row[8] == "" ? final_row[7] : final_row[8]
