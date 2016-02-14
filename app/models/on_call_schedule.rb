@@ -58,7 +58,7 @@ class OnCallSchedule
       next_date = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
       if Date.today == current_date
         row = Time.now.hour < 10 ? worksheet.rows[i-2] : worksheet.rows[i-1]
-      elsif Time.now.between?(current_date, next_date)
+      elsif Date.today.between?(current_date, next_date)
         row = worksheet.rows[i-1]
       end
     end

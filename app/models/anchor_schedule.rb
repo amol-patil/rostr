@@ -56,7 +56,7 @@ attr_accessor :team, :response_url
       next_num = i+1
       current_date = Date.strptime(worksheet["A#{i}"],"%m/%d/%Y")
       next_date = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
-      if Time.now.between?(current_date, next_date)
+      if Date.today.between?(current_date, next_date)
         row = worksheet.rows[i-1]
       end
     end
