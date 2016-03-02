@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :on_call_schedules, :only => [:create]
   resources :anchor_schedules, :only => [:create]
+  resources :pm_schedules, :only => [:create]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
