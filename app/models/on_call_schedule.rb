@@ -13,7 +13,7 @@ class OnCallSchedule
   end
 
   def is_team_name_valid?
-    team_names = ["ROID", "CA", "CS", "UW"]
+    team_names = ["CA", "CS", "UW"]
     return team_names.include?(team) ? true : false
   end
 
@@ -24,7 +24,7 @@ class OnCallSchedule
         request_body = {"text" => "Schedule not set for today" }
       else 
         oncall = whos_on_call(team, final_row)
-        request_body = {"text" => team + " on-call is: " + oncall.upcase}
+        request_body = {"text" => team + " primary on-call is: " + oncall[0].upcase + "\n" + team + " secondary on-call is: " + oncall[1].upcase }
       end
       HTTParty.post(response_url, body: request_body.to_json)
     end
@@ -33,13 +33,16 @@ class OnCallSchedule
   private 
 
   def whos_on_call(team, final_row)
+    oncall = []
     case team
     when "CA", "UW"
-      return final_row[4] == "" ? final_row[3] : final_row[4]
+      final_row[2] == "" ? oncall[0] = final_row[1] : oncall[0] = final_row[2]
+      final_row[6] == "" ? oncall[1] = final_row[5] : oncall[0] = final_row[6]
+      return oncall
     when "CS"
-      return final_row[8] == "" ? final_row[7] : final_row[8]
-    when "ROID"
-      return final_row[2] == "" ? final_row[1] : final_row[2]
+      final_row[4] == "" ? oncall[0] = final_row[3] : oncall[0] = final_row[4]
+      final_row[8] == "" ? oncall[1] = final_row[7] : oncall[0] = final_row[8] 
+      return oncall
     else
       return "ERROR"
     end  
@@ -47,12 +50,12 @@ class OnCallSchedule
 
   def get_spreadsheet
     session = GoogleDrive.saved_session("config.json")
-    session.spreadsheet_by_key("1h71PBoL_nz2_3fJZ2DH3xRmG-oY820mY7iur9p3Hxao").worksheets[1]
+    session.spreadsheet_by_key("16oc-tznFkwVPASk-5-BEa8zhV2dkbgP6CJAEZQl_ecw").worksheets[0]
   end
 
   def extract_final_row(team, worksheet)
     row = []
-    (3..worksheet.rows.size-1).each do |i|
+    (2..worksheet.rows.size-1).each do |i|
       next_num = i+1
       current_date = Date.strptime(worksheet["A#{i}"],"%m/%d/%Y")
       next_date = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
