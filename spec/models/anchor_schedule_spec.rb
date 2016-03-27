@@ -52,7 +52,7 @@ describe AnchorSchedule do
     context "CA" do
       subject { AnchorSchedule.new("CA", "test_response_url").callback_slack }
 
-      let(:request_body) { {"text" => "CA anchor is: BYK"} }
+      let(:request_body) { {"text" => "CA anchor is: RL"} }
       let(:request_body_error) { {"text" => "Schedule not set for today"} }
 
       it "returns corresponding row for matching day" do
