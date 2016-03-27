@@ -50,22 +50,35 @@ class OnCallSchedule
 
   def get_spreadsheet
     session = GoogleDrive.saved_session("config.json")
-    session.spreadsheet_by_key("16oc-tznFkwVPASk-5-BEa8zhV2dkbgP6CJAEZQl_ecw").worksheets[0]
+    session.spreadsheet_by_key("1h71PBoL_nz2_3fJZ2DH3xRmG-oY820mY7iur9p3Hxao").worksheets[0]
   end
 
   def extract_final_row(team, worksheet)
+    sanitized_worksheet = sanitize_worksheet_array(worksheet)
     row = []
-    (2..worksheet.rows.size-1).each do |i|
-      next_num = i+1
-      current_date = Date.strptime(worksheet["A#{i}"],"%m/%d/%Y")
-      next_date = Date.strptime(worksheet["A#{next_num}"],"%m/%d/%Y")
-      if Date.today == current_date
-        row = Time.now.hour < 10 ? worksheet.rows[i-2] : worksheet.rows[i-1]
-      elsif Date.today.between?(current_date, next_date)
-        row = worksheet.rows[i-1]
+    sanitized_worksheet.each_with_index do |record, index|
+      current_date = Date.strptime(record.first,"%m/%d/%Y")
+      if current_date > Date.today
+        return row = index == 0 ? [] : sanitized_worksheet[index-1]
+      end
+      if current_date == Date.today
+        return row = Time.now.hour < 10 ? sanitized_worksheet[index-1] : record unless index == 0
       end
     end
-    row
+  end
+
+  def sanitize_worksheet_array(worksheet)
+    sanitized_worksheet = []
+    (3..worksheet.rows.size-1).each do |record|
+      begin
+        if Date.strptime(worksheet["A#{record}"],"%m/%d/%Y")
+          sanitized_worksheet << worksheet.rows[record-1]
+        end
+      rescue
+        next
+      end
+    end
+    sanitized_worksheet
   end
 
 end
