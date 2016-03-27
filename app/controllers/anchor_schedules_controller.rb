@@ -1,3 +1,5 @@
+require 'byebug'
+
 class AnchorSchedulesController < ApplicationController
   
   def create

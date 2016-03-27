@@ -34,7 +34,7 @@ attr_accessor :team, :response_url
 
   def get_spreadsheet
     session = GoogleDrive.saved_session("config.json")
-    session.spreadsheet_by_key("1h71PBoL_nz2_3fJZ2DH3xRmG-oY820mY7iur9p3Hxao").worksheets[3]
+    session.spreadsheet_by_key("1h71PBoL_nz2_3fJZ2DH3xRmG-oY820mY7iur9p3Hxao").worksheets[2]
   end
 
   def whos_anchor(team, row)
