@@ -26,10 +26,10 @@ describe AnchorSchedulesController do
         expect(response.status).to eq(422)
       end
 
-      it "renders error teamplate" do
+      it "renders error template" do
         post :create, params
         expect(response).to render_template("create_error")
       end
-    end 
+    end
   end
 end
