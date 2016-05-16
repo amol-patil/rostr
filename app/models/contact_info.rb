@@ -16,37 +16,30 @@ class ContactInfo
   end
 
   def is_name_valid?
-    return is_first_name_valid? && is_last_name_valid? && is_user_name_valid?
-  end
-
-  def is_first_name_valid?
-    # return ["Sean"].include?(name) ? true : false
     return true
-  end
-
-  def is_last_name_valid?
-    return ["Kamkar"].include?(name) ? true : false
-  end
-
-  def is_user_name_valid?
-    return ["sjk"].include?(name) ? true : false
   end
 
   def callback_slack
     Thread.new do
-      rows = find_contact_rows(name, get_spreadsheet)
-      if !rows.empty?
-        # matching_users = pull_matching_users(rows)
-        if rows.length == 1
-          request_body = {"text" => "One user exists!" }
-        else
-          request_body = {"text" => "#{rows.length} users exist!" }
-        end
+      contacts = pull_contact_data(name, get_spreadsheet)
+      if !contacts.empty?
+        prepend_contacts = preprend_body(contacts).join("\n")
+        request_body = {"text" => prepend_contacts }
       else
-        request_body = {"text" => "#{name} does not exist :(" }
+        request_body = {"text" => "#{name} could not be found :(" }
       end
       HTTParty.post(response_url, body: request_body.to_json)
     end
+  end
+
+  def preprend_body(body)
+    full_body = []
+    if body.length == 1
+      full_body << "1 user found\n\n"
+    else
+      full_body << "#{body.length} users found\n\n"
+    end
+    full_body << body
   end
 
   def get_spreadsheet
@@ -54,18 +47,30 @@ class ContactInfo
     session.spreadsheet_by_key("1BO-QOC-r748Y0t1lodc0BrBN2U3xA55YNY67cb09i-8").worksheets[0]
   end
 
-  def find_contact_rows(name, worksheet)
-    row = []
+  def pull_contact_data(name, worksheet)
+    body = []
+    rows = []
     (2..worksheet.rows.size-1).each do |i|
       full_name = worksheet["A#{i}"].downcase
       email = worksheet["B#{i}"].downcase
       if full_name.include?(name.downcase)
-        row << i
+        rows << i
       elsif email.include?(name.downcase)
-        row << i
+        rows << i
       end
     end
-    row
+
+    rows.each do |row|
+      body << [
+        "- - - - - - - - - - - - - - - - \n",
+        "name: \t#{worksheet["A#{row}"]} \n",
+        "email: \t#{worksheet["B#{row}"]} \n",
+        "office: \t#{worksheet["C#{row}"]} \n",
+        "cell:\t\t#{worksheet["D#{row}"]} \n",
+        "group: \t#{worksheet["E#{row}"]} \n"
+      ].join()
+    end
+    body
   end
 
 end

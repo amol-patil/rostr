@@ -4,7 +4,7 @@ class ContactInfoController < ApplicationController
     contact_info = ContactInfo.new(params[:text], params[:response_url])
     respond_to do |format|
 
-      if contact_info.is_first_name_valid?
+      if contact_info.is_name_valid?
         format.json { render "create", :status => :ok }
         contact_info.callback_slack
       # elsif contact_info.is_last_name_valid?
