@@ -1,5 +1,5 @@
-json.text "Unrecognized Command. Input must command must be first, last, or user name. Spaces are ignored. Examples:
+json.text "Bad input detected; must be a single name - no white space, special, or numeric characters. Also, queries are case-insentive and match wildcards. Examples:
 
-/411 Sean
-/411 Patil
-/411 dec"
+/411 Douglas
+/411 Merri
+/411 dcm"
