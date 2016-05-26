@@ -1,26 +1,27 @@
 require 'rails_helper'
 
-describe AnchorSchedulesController do 
+describe ContactInfoController do
   context "POST" do
     context "200" do
-      let(:params) { {"text" => "UW"} } 
+      let(:params) { {"text" => "Sean"} }
       it "returns 200 with valid params" do
         post :create, params
         expect(response.status).to eq(200)
       end
+
       it "renders create template" do
         post :create, params
         expect(response).to render_template("create")
       end
 
       it "calls back slack after rendering" do
-        expect_any_instance_of(AnchorSchedule).to receive(:callback_slack)
+        expect_any_instance_of(ContactInfo).to receive(:callback_slack)
         post :create, params
       end
     end
 
     context "422" do
-      let(:params) { {"text" => "Slack test"} }
+      let(:params) { {"text" => "a_bad_name"} }
       it "returns 422 with invalid params" do
         post :create, params
         expect(response.status).to eq(422)
